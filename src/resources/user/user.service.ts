@@ -28,22 +28,22 @@ export class UserService implements IUserService {
 		return this.userRepos.save(user);
 	}
 
+	async findAll() {
+		return this.userRepos.find();
+	}
+
 	async findById(id: string) {
 		return this.userRepos.findOne({
-			where: {
-				id,
-			},
+			where: { id },
 			relations: {
 				role: true,
 			},
 		});
 	}
 
-	async findOne(fullName: string) {
+	async findOne(email: string) {
 		return this.userRepos.findOne({
-			where: {
-				fullName,
-			},
+			where: { email },
 			relations: {
 				role: true,
 			},
