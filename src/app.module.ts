@@ -5,6 +5,9 @@ import { DbConfig, JwtConfig } from 'config';
 import { AuthModule } from '@resources/auth/auth.module';
 import { RoleModule } from '@resources/role/role.module';
 import { UserModule } from '@resources/user/user.module';
+import { VariantModule } from './resources/variant/variant.module';
+import { ColorModule } from './resources/color/color.module';
+import { SizeModule } from './resources/size/size.module';
 
 @Module({
 	imports: [
@@ -14,6 +17,9 @@ import { UserModule } from '@resources/user/user.module';
 		RoleModule,
 		UserModule,
 		AuthModule,
+		VariantModule,
+		ColorModule,
+		SizeModule,
 	],
 	providers: [
 		{
