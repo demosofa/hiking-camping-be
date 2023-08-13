@@ -8,6 +8,9 @@ import { UserModule } from '@resources/user/user.module';
 import { VariantModule } from './resources/variant/variant.module';
 import { ColorModule } from './resources/color/color.module';
 import { SizeModule } from './resources/size/size.module';
+import { ProductModule } from '@resources/product/product.module';
+import { CategoryModule } from '@resources/category/category.module';
+import { ReviewModule } from '@resources/review/review.module';
 
 @Module({
 	imports: [
@@ -20,6 +23,9 @@ import { SizeModule } from './resources/size/size.module';
 		VariantModule,
 		ColorModule,
 		SizeModule,
+		ProductModule,
+		CategoryModule,
+		ReviewModule,
 	],
 	providers: [
 		{
