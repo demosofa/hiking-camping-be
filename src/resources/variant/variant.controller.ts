@@ -6,17 +6,25 @@ import {
 	Patch,
 	Param,
 	Delete,
+	UseInterceptors,
+	UploadedFile,
 } from '@nestjs/common';
 import { VariantService } from './variant.service';
 import { CreateVariantDto } from './dto/create-variant.dto';
 import { UpdateVariantDto } from './dto/update-variant.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('variant')
 export class VariantController {
 	constructor(private readonly variantService: VariantService) {}
 
 	@Post()
-	create(@Body() createVariantDto: CreateVariantDto) {
+	@UseInterceptors(FileInterceptor('file'))
+	create(
+		@UploadedFile() file: Express.Multer.File,
+		@Body() createVariantDto: CreateVariantDto
+	) {
+		if (file) createVariantDto.image = file.path;
 		return this.variantService.create(createVariantDto);
 	}
 
@@ -31,7 +39,16 @@ export class VariantController {
 	}
 
 	@Patch(':id')
-	update(@Param('id') id: string, @Body() updateVariantDto: UpdateVariantDto) {
+	@UseInterceptors(FileInterceptor('file'))
+	update(
+		@UploadedFile() file: Express.Multer.File,
+		@Param('id') id: string,
+		@Body() updateVariantDto: UpdateVariantDto
+	) {
+		if (file) {
+			updateVariantDto.isNewImage = true;
+			updateVariantDto.image = file.path;
+		}
 		return this.variantService.update(id, updateVariantDto);
 	}
 

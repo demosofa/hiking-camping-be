@@ -8,13 +8,14 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './entities/category.entity';
 import { Repository } from 'typeorm';
-import { ResponseItem } from '@resources/product/dto/ReponsiveItem';
+import { unlinkSync } from 'fs';
 
 @Injectable()
 export class CategoryService {
 	constructor(
 		@InjectRepository(Category) private categoryRepos: Repository<Category>
 	) {}
+
 	async create(createCategoryDto: CreateCategoryDto) {
 		try {
 			const parentCategory = await Category.findOneBy({
@@ -28,8 +29,6 @@ export class CategoryService {
 		} catch (error) {
 			throw new BadRequestException(error.message);
 		}
-		// const createCategory = await this.categoryRepos.create(createCategoryDto);
-		// return await this.categoryRepos.save(createCategory);
 	}
 
 	async findAll() {
@@ -64,6 +63,10 @@ export class CategoryService {
 			delete updateCategoryDto.parentCategoryId;
 			const oldData = await this.categoryRepos.findOneBy({ id });
 
+			if (updateCategoryDto.isNewImage) {
+				unlinkSync(oldData.image);
+			}
+
 			return this.categoryRepos.save({
 				...oldData,
 				...updateCategoryDto,
@@ -76,12 +79,10 @@ export class CategoryService {
 
 	async remove(id: string) {
 		try {
-			await this.categoryRepos.delete(id);
-			const category: Category = await this.categoryRepos.findOne({
-				where: { id },
-			});
-
-			return new ResponseItem<Category>(category, 'delete success');
+			const beforeDeleted = await this.findOne(id);
+			const result = await this.categoryRepos.delete(id);
+			unlinkSync(beforeDeleted.image);
+			return result.affected > 0;
 		} catch (error) {
 			throw new BadRequestException(error.mess);
 		}

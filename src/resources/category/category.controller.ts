@@ -6,19 +6,26 @@ import {
 	Patch,
 	Param,
 	Delete,
+	UseInterceptors,
+	UploadedFile,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { Category } from './entities/category.entity';
-import { ResponseItem } from '@resources/product/dto/ReponsiveItem';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('category')
 export class CategoryController {
 	constructor(private readonly categoryService: CategoryService) {}
 
 	@Post()
-	create(@Body() createCategoryDto: CreateCategoryDto) {
+	@UseInterceptors(FileInterceptor('file'))
+	create(
+		@UploadedFile()
+		file: Express.Multer.File,
+		@Body() createCategoryDto: CreateCategoryDto
+	) {
+		if (file) createCategoryDto.image = file.path;
 		return this.categoryService.create(createCategoryDto);
 	}
 
@@ -33,15 +40,22 @@ export class CategoryController {
 	}
 
 	@Patch(':id')
+	@UseInterceptors(FileInterceptor('file'))
 	update(
+		@UploadedFile()
+		file: Express.Multer.File,
 		@Param('id') id: string,
 		@Body() updateCategoryDto: UpdateCategoryDto
 	) {
+		if (file) {
+			updateCategoryDto.isNewImage = true;
+			updateCategoryDto.image = file.path;
+		}
 		return this.categoryService.update(id, updateCategoryDto);
 	}
 
 	@Delete(':id')
-	remove(@Param('id') id: string): Promise<ResponseItem<Category>> {
+	remove(@Param('id') id: string) {
 		return this.categoryService.remove(id);
 	}
 }
