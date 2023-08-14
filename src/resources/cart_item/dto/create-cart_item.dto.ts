@@ -8,9 +8,12 @@ export class CreateCartItemDto {
 	@IsNotEmpty()
 	itemPrice: number;
 
+	@IsNotEmpty()
+	nameCart: string;
+
 	@IsEmpty()
 	variantId: string;
 
 	@IsEmpty()
-	cartId: string;
+	userId: string;
 }

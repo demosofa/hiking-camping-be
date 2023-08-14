@@ -1,30 +1,34 @@
-import { CartService } from './../carts/cart.service';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+	BadRequestException,
+	Injectable,
+	NotFoundException,
+} from '@nestjs/common';
 import { CreateCartItemDto } from './dto/create-cart_item.dto';
 import { CartItem } from './entities/cart_item.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UpdateCartItemDto } from './dto/update-cart_item.dto';
-import { Cart } from '@resources/carts/entities/cart.entity';
 import { Variant } from '@resources/variant/entities/variant.entity';
 import { VariantService } from '@resources/variant/variant.service';
+import { UserService } from '@resources/user/user.service';
+import { User } from '@resources/user/entities/user.entity';
 
 @Injectable()
 export class CartItemService {
 	constructor(
 		@InjectRepository(CartItem)
 		private readonly cartItemRepo: Repository<CartItem>,
-		private readonly cartService: CartService,
+		private readonly userService: UserService,
 		private readonly variantService: VariantService
 	) {}
 
 	async create(createCartItemDto: CreateCartItemDto) {
 		try {
-			let cartId: Cart;
+			let userId: User;
 			let variantId: Variant;
-			if (createCartItemDto.cartId) {
-				cartId = await this.cartService.findOne(createCartItemDto.cartId);
-				delete createCartItemDto.cartId;
+			if (createCartItemDto.userId) {
+				userId = await this.userService.findOne(createCartItemDto.userId);
+				delete createCartItemDto.userId;
 			}
 			if (createCartItemDto.variantId) {
 				variantId = await this.variantService.findOne(
@@ -35,7 +39,7 @@ export class CartItemService {
 
 			const cartItem = CartItem.create({
 				...createCartItemDto,
-				cartId,
+				userId,
 				variantId,
 			});
 			return CartItem.save(cartItem);
@@ -56,18 +60,24 @@ export class CartItemService {
 		});
 	}
 
-	async findOne(id: string): Promise<CartItem | null> {
-		return await this.cartItemRepo.findOneBy({ id });
+	async findCartItemByUserId(userId: string) {
+		return (await this.userService.findById(userId))?.cartItem;
+	}
+
+	async findOne(id: string) {
+		const result = await this.cartItemRepo.findOneBy({ id });
+		if (!result) throw new NotFoundException();
+		return result;
 	}
 
 	async update(id: string, updateCartItemDto: UpdateCartItemDto) {
 		await this.findOne(id);
 
-		let cartId: Cart;
+		let userId: User;
 		let variantId: Variant;
-		if (updateCartItemDto.cartId) {
-			cartId = await this.cartService.findOne(updateCartItemDto.cartId);
-			delete updateCartItemDto.cartId;
+		if (updateCartItemDto.userId) {
+			userId = await this.userService.findOne(updateCartItemDto.userId);
+			delete updateCartItemDto.userId;
 		}
 		if (updateCartItemDto.variantId) {
 			variantId = await this.variantService.findOne(
@@ -75,8 +85,7 @@ export class CartItemService {
 			);
 			delete updateCartItemDto.variantId;
 		}
-
-		return CartItem.save({ id, ...updateCartItemDto, cartId, variantId });
+		return CartItem.save({ id, ...updateCartItemDto, userId, variantId });
 	}
 
 	async remove(id: string): Promise<void> {
