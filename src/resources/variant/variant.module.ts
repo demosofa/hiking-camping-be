@@ -23,7 +23,6 @@ import { ProductModule } from '../product/product.module';
 		ColorModule,
 		SizeModule,
 		ProductModule,
-		TypeOrmModule.forFeature([Variant]),
 		MulterConfigModule,
 	],
 	controllers: [VariantController],
