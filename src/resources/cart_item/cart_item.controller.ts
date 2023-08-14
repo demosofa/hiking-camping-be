@@ -25,6 +25,11 @@ export class CartItemController {
 		return this.cartItemService.findAll();
 	}
 
+	@Get('user/:id')
+	findCartItemByUserId(@Param('id') id: string) {
+		return this.cartItemService.findCartItemByUserId(id);
+	}
+
 	@Get(':id')
 	findOne(@Param('id') id: string) {
 		return this.cartItemService.findOne(id);

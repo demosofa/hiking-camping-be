@@ -1,4 +1,4 @@
-import { Cart } from '@resources/carts/entities/cart.entity';
+import { User } from '@resources/user/entities/user.entity';
 import { Variant } from '@resources/variant/entities/variant.entity';
 import { Exclude } from 'class-transformer';
 import {
@@ -22,8 +22,14 @@ export class CartItem extends BaseEntity {
 	@Column()
 	itemPrice: number;
 
-	@ManyToOne(() => Cart, (cart) => cart.cartItem)
-	cartId: Cart;
+	@Column()
+	image: string;
+
+	@Column()
+	nameCart: string;
+
+	@ManyToOne(() => User, (user) => user.cartItem)
+	userId: User;
 
 	@ManyToOne(() => Variant, (variant) => variant.cartItem)
 	variantId: Variant;
