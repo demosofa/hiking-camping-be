@@ -5,9 +5,11 @@ import { ColorModule } from '../color/color.module';
 import { SizeModule } from '../size/size.module';
 import { ColorService } from '../color/color.service';
 import { SizeService } from '../size/size.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Variant } from './entities/variant.entity';
 
 @Module({
-	imports: [ColorModule, SizeModule],
+	imports: [ColorModule, SizeModule, TypeOrmModule.forFeature([Variant])],
 	controllers: [VariantController],
 	providers: [VariantService, ColorService, SizeService],
 })

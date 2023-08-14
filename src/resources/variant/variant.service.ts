@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+	BadRequestException,
+	Injectable,
+	NotFoundException,
+} from '@nestjs/common';
 import { CreateVariantDto } from './dto/create-variant.dto';
 import { UpdateVariantDto } from './dto/update-variant.dto';
 import { ColorService } from '../color/color.service';
@@ -14,6 +18,10 @@ export class VariantService {
 		private readonly sizeService: SizeService
 	) {}
 	async create(createVariantDto: CreateVariantDto) {
+		try {
+		} catch (error) {
+			throw new BadRequestException(error.message);
+		}
 		let color: Color;
 		let size: Size;
 		if (createVariantDto.colorId) {
