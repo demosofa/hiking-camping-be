@@ -5,5 +5,6 @@ import { SizeController } from './size.controller';
 @Module({
 	controllers: [SizeController],
 	providers: [SizeService],
+	exports: [SizeService],
 })
 export class SizeModule {}

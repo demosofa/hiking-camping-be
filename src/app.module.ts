@@ -11,6 +11,8 @@ import { SizeModule } from './resources/size/size.module';
 import { ProductModule } from '@resources/product/product.module';
 import { CategoryModule } from '@resources/category/category.module';
 import { ReviewModule } from '@resources/review/review.module';
+import { CartModule } from '@resources/carts/cart.module';
+import { CartItemModule } from '@resources/cart_item/cart_item.module';
 
 @Module({
 	imports: [
@@ -26,6 +28,8 @@ import { ReviewModule } from '@resources/review/review.module';
 		ProductModule,
 		CategoryModule,
 		ReviewModule,
+		CartModule,
+		CartItemModule,
 	],
 	providers: [
 		{
