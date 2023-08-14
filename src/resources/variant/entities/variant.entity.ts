@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Color } from '../../color/entities/color.entity';
 import { Size } from '../../size/entities/size.entity';
+import { Product } from '../../product/entities/product.entity';
 import { CartItem } from '@resources/cart_item/entities/cart_item.entity';
 
 @Entity()
@@ -29,4 +30,10 @@ export class Variant extends BaseEntity {
 
 	@Column()
 	price: number;
+
+	@ManyToOne(() => Product, (product) => product.variant)
+	product: Product;
+
+	@Column()
+	image: string;
 }

@@ -10,6 +10,7 @@ import {
 	OneToMany,
 	PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Variant } from '../../variant/entities/variant.entity';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -31,6 +32,8 @@ export class Product extends BaseEntity {
 	@OneToMany(() => Review, (review) => review.product)
 	review: Review[];
 
+	@OneToMany(() => Variant, (variant) => variant.product)
+	variant: Variant[];
 	@ManyToMany(() => Wishlist, (wishlist) => wishlist.products)
 	wishlists: Wishlist[];
 }
