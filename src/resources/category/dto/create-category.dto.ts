@@ -1,20 +1,15 @@
-import { Type } from 'class-transformer';
-import {
-	IsEmpty,
-	IsNotEmpty,
-	IsOptional,
-	IsString,
-	IsUUID,
-	ValidateNested,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class CreateCategoryDto {
 	@IsNotEmpty()
+	@IsString()
 	category: string;
 
-	@IsNotEmpty()
+	@IsOptional()
+	@IsString()
 	image: string;
 
-	@IsEmpty()
+	@IsOptional()
+	@IsUUID()
 	parentCategoryId: string;
 }
