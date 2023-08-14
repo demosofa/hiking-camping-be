@@ -13,6 +13,7 @@ import { CategoryModule } from '@resources/category/category.module';
 import { ReviewModule } from '@resources/review/review.module';
 import { CartModule } from '@resources/carts/cart.module';
 import { CartItemModule } from '@resources/cart_item/cart_item.module';
+import { WishlistModule } from './resources/wishlist/wishlist.module';
 
 @Module({
 	imports: [
@@ -30,6 +31,7 @@ import { CartItemModule } from '@resources/cart_item/cart_item.module';
 		ReviewModule,
 		CartModule,
 		CartItemModule,
+		WishlistModule,
 	],
 	providers: [
 		{

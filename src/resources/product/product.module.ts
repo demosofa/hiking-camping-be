@@ -6,9 +6,14 @@ import { Role } from '@resources/role/entities/role.entity';
 import { Product } from './entities/product.entity';
 import { User } from '@resources/user/entities/user.entity';
 import { UserModule } from '@resources/user/user.module';
+import { RoleModule } from '@resources/role/role.module';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([User, Role, Product]), UserModule],
+	imports: [
+		TypeOrmModule.forFeature([User, Role, Product]),
+		RoleModule,
+		UserModule,
+	],
 	controllers: [ProductController],
 	providers: [ProductService],
 })
