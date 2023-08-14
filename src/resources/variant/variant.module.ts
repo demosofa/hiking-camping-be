@@ -10,5 +10,6 @@ import { SizeService } from '../size/size.service';
 	imports: [ColorModule, SizeModule],
 	controllers: [VariantController],
 	providers: [VariantService, ColorService, SizeService],
+	exports: [VariantService],
 })
 export class VariantModule {}

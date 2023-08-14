@@ -3,10 +3,12 @@ import {
 	Column,
 	Entity,
 	ManyToOne,
+	OneToMany,
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Color } from '../../color/entities/color.entity';
 import { Size } from '../../size/entities/size.entity';
+import { CartItem } from '@resources/cart_item/entities/cart_item.entity';
 
 @Entity()
 export class Variant extends BaseEntity {
@@ -21,6 +23,9 @@ export class Variant extends BaseEntity {
 
 	@ManyToOne(() => Size, (size) => size.variant)
 	size: Size;
+
+	@OneToMany(() => CartItem, (cart_item) => cart_item.variantId)
+	cartItem: CartItem[];
 
 	@Column()
 	price: number;
