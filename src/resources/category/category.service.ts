@@ -8,7 +8,7 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './entities/category.entity';
 import { Repository } from 'typeorm';
-import { ResponseItem } from '@resources/product/dto/ReponsiveItem';
+import { unlinkSync } from 'fs';
 
 @Injectable()
 export class CategoryService {
@@ -76,12 +76,10 @@ export class CategoryService {
 
 	async remove(id: string) {
 		try {
-			await this.categoryRepos.delete(id);
-			const category: Category = await this.categoryRepos.findOne({
-				where: { id },
-			});
-
-			return new ResponseItem<Category>(category, 'delete success');
+			const beforeDeleted = await this.findOne(id);
+			const result = await this.categoryRepos.delete(id);
+			unlinkSync(beforeDeleted.image);
+			return result.affected > 0;
 		} catch (error) {
 			throw new BadRequestException(error.mess);
 		}
