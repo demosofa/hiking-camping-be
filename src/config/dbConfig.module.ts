@@ -20,4 +20,4 @@ import { ConfigService } from '@nestjs/config';
 		}),
 	],
 })
-export class DbConfig {}
+export class DbConfigModule {}

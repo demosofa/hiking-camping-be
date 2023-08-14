@@ -19,7 +19,8 @@
 		"noFallthroughCasesInSwitch": false,
 		"paths": {
 			"@common/*": ["common/*"],
-			"@resources/*": ["resources/*"]
+			"@resources/*": ["resources/*"],
+			"@config/*": ["config/*"]
 		}
 	}
 }
