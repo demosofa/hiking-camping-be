@@ -8,46 +8,24 @@ import {
 	Delete,
 	UseInterceptors,
 	UploadedFile,
-	ParseFilePipeBuilder,
-	HttpStatus,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
 
 @Controller('category')
 export class CategoryController {
 	constructor(private readonly categoryService: CategoryService) {}
 
 	@Post()
-	@UseInterceptors(
-		FileInterceptor('file', {
-			storage: diskStorage({
-				destination: './public',
-				filename(req, file, callback) {
-					return callback(null, `${Date.now()}.${extname(file.originalname)}`);
-				},
-			}),
-		})
-	)
+	@UseInterceptors(FileInterceptor('file'))
 	create(
-		@UploadedFile(
-			new ParseFilePipeBuilder()
-				.addFileTypeValidator({
-					fileType: /jpeg|jpg|png|gif/,
-				})
-				.build({
-					errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-				})
-		)
+		@UploadedFile()
 		file: Express.Multer.File,
 		@Body() createCategoryDto: CreateCategoryDto
 	) {
-		console.log(file.path);
-		createCategoryDto.image = file.path;
+		if (file) createCategoryDto.image = file.path;
 		return this.categoryService.create(createCategoryDto);
 	}
 
@@ -62,10 +40,17 @@ export class CategoryController {
 	}
 
 	@Patch(':id')
+	@UseInterceptors(FileInterceptor('file'))
 	update(
+		@UploadedFile()
+		file: Express.Multer.File,
 		@Param('id') id: string,
 		@Body() updateCategoryDto: UpdateCategoryDto
 	) {
+		if (file) {
+			updateCategoryDto.isNewImage = true;
+			updateCategoryDto.image = file.path;
+		}
 		return this.categoryService.update(id, updateCategoryDto);
 	}
 

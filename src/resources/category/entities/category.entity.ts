@@ -17,7 +17,7 @@ export class Category extends BaseEntity {
 	@Column()
 	category: string;
 
-	@Column()
+	@Column({ nullable: true })
 	image: string;
 
 	@ManyToOne(() => Category, (category) => category.subCategories) // mối quan hệ nhiều-đến-một

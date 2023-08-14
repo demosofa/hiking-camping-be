@@ -15,6 +15,7 @@ export class CategoryService {
 	constructor(
 		@InjectRepository(Category) private categoryRepos: Repository<Category>
 	) {}
+
 	async create(createCategoryDto: CreateCategoryDto) {
 		try {
 			const parentCategory = await Category.findOneBy({
@@ -28,8 +29,6 @@ export class CategoryService {
 		} catch (error) {
 			throw new BadRequestException(error.message);
 		}
-		// const createCategory = await this.categoryRepos.create(createCategoryDto);
-		// return await this.categoryRepos.save(createCategory);
 	}
 
 	async findAll() {
@@ -63,6 +62,10 @@ export class CategoryService {
 			});
 			delete updateCategoryDto.parentCategoryId;
 			const oldData = await this.categoryRepos.findOneBy({ id });
+
+			if (updateCategoryDto.isNewImage) {
+				unlinkSync(oldData.image);
+			}
 
 			return this.categoryRepos.save({
 				...oldData,

@@ -1,7 +1,9 @@
 import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { multerConfig } from '@config/multer.config';
+import { DbConfigModule } from '@config/dbConfig.module';
+import { JwtConfigModule } from '@config/jwtConfig.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { DbConfig, JwtConfig } from 'config';
 import { AuthModule } from '@resources/auth/auth.module';
 import { RoleModule } from '@resources/role/role.module';
 import { UserModule } from '@resources/user/user.module';
@@ -16,9 +18,13 @@ import { WishlistModule } from './resources/wishlist/wishlist.module';
 
 @Module({
 	imports: [
-		ConfigModule.forRoot({ isGlobal: true, expandVariables: true }),
-		DbConfig,
-		JwtConfig,
+		ConfigModule.forRoot({
+			isGlobal: true,
+			expandVariables: true,
+			load: [multerConfig],
+		}),
+		DbConfigModule,
+		JwtConfigModule,
 		RoleModule,
 		UserModule,
 		AuthModule,
