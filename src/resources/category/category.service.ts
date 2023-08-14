@@ -18,9 +18,12 @@ export class CategoryService {
 
 	async create(createCategoryDto: CreateCategoryDto) {
 		try {
-			const parentCategory = await Category.findOneBy({
-				id: createCategoryDto.parentCategoryId,
-			});
+			let parentCategory: Category;
+			if (createCategoryDto.parentCategoryId) {
+				parentCategory = await Category.findOneBy({
+					id: createCategoryDto.parentCategoryId,
+				});
+			}
 			const product = this.categoryRepos.create(createCategoryDto);
 			return this.categoryRepos.save({
 				...product,
@@ -57,10 +60,13 @@ export class CategoryService {
 
 	async update(id: string, updateCategoryDto: UpdateCategoryDto) {
 		try {
-			const parentCategory = await Category.findOneBy({
-				id: updateCategoryDto.parentCategoryId,
-			});
-			delete updateCategoryDto.parentCategoryId;
+			let parentCategory: Category;
+			if (updateCategoryDto.parentCategoryId) {
+				parentCategory = await Category.findOneBy({
+					id: updateCategoryDto.parentCategoryId,
+				});
+				delete updateCategoryDto.parentCategoryId;
+			}
 			const oldData = await this.categoryRepos.findOneBy({ id });
 
 			if (updateCategoryDto.isNewImage) {
