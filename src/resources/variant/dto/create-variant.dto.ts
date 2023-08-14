@@ -14,4 +14,7 @@ export class CreateVariantDto {
 
 	@IsNumber()
 	price: number;
+
+	@IsNotEmpty()
+	image: string;
 }
