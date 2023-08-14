@@ -18,12 +18,10 @@ export class AuthService implements IAuthService {
 		const { password, id, fullName, role } = user;
 		const check = compareSync(loginUserDto.password, password);
 		if (!check) throw new UnauthorizedException();
-		console.log(user);
 		return this.jwtService.signAsync({ id, fullName, role: role.name });
 	}
 
 	async register(registerUserDto: RegisterUserDto) {
-		console.log(registerUserDto);
 		registerUserDto.password = hashSync(registerUserDto.password, 10);
 		const { id, fullName, role } = await this.userService.create(
 			registerUserDto

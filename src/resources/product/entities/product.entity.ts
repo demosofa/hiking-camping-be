@@ -1,9 +1,11 @@
 import { Category } from '@resources/category/entities/category.entity';
 import { Review } from '@resources/review/entities/review.entity';
+import { Wishlist } from '@resources/wishlist/entities/wishlist.entity';
 import {
 	BaseEntity,
 	Column,
 	Entity,
+	ManyToMany,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
@@ -28,4 +30,7 @@ export class Product extends BaseEntity {
 
 	@OneToMany(() => Review, (review) => review.product)
 	review: Review[];
+
+	@ManyToMany(() => Wishlist, (wishlist) => wishlist.products)
+	wishlists: Wishlist[];
 }

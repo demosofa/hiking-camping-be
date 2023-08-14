@@ -33,26 +33,29 @@ export class UserService implements IUserService {
 	}
 
 	async findById(id: string) {
-		return this.userRepos.findOne({
+		const user = await this.userRepos.findOne({
 			where: { id },
 			relations: {
 				role: true,
 			},
 		});
+		if (!user) throw new NotFoundException();
+		return user;
 	}
 
 	async findOne(email: string) {
-		return this.userRepos.findOne({
+		const user = await this.userRepos.findOne({
 			where: { email },
 			relations: {
 				role: true,
 			},
 		});
+		if (!user) throw new NotFoundException();
+		return user;
 	}
 
 	async update(id: string, updateUserDto: UpdateUserDto) {
 		const user = await this.findById(id);
-		if (!user) throw new NotFoundException();
 		if (user.email != updateUserDto.email) {
 			const isExist = await this.userRepos.findOneBy({
 				email: updateUserDto.email,
