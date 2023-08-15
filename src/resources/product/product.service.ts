@@ -38,6 +38,11 @@ export class ProductService {
 		const findAllProduct = await this.productRepos.find({
 			relations: {
 				category: true,
+				variant: {
+					color: true,
+					size: true,
+				},
+				review: true,
 			},
 		});
 		return findAllProduct;
