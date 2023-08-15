@@ -13,8 +13,11 @@ import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Auth } from '@common/decorators';
+import { ROLE } from '@common/enums';
 
 @Controller('category')
+@Auth(ROLE.ADMIN)
 export class CategoryController {
 	constructor(private readonly categoryService: CategoryService) {}
 

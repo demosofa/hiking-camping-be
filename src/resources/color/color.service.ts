@@ -40,7 +40,7 @@ export class ColorService {
 			const color = await Color.findOneBy({
 				color: updateColorDto.color,
 			});
-			if (color) throw new Error('color alreay existed');
+			if (color) throw new Error('color already existed');
 
 			return Color.save({ id, ...updateColorDto });
 		} catch (error) {

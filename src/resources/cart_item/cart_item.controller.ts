@@ -6,12 +6,15 @@ import {
 	Patch,
 	Param,
 	Delete,
+	UseGuards,
 } from '@nestjs/common';
 import { CartItemService } from './cart_item.service';
 import { CreateCartItemDto } from './dto/create-cart_item.dto';
 import { UpdateCartItemDto } from './dto/update-cart_item.dto';
+import { AuthGuard } from '@common/guards';
 
 @Controller('cart-item')
+@UseGuards(AuthGuard)
 export class CartItemController {
 	constructor(private readonly cartItemService: CartItemService) {}
 

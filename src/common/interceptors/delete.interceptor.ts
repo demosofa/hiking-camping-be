@@ -1,13 +1,15 @@
 import {
+	BadRequestException,
 	CallHandler,
 	ExecutionContext,
+	HttpStatus,
 	Injectable,
 	NestInterceptor,
 } from '@nestjs/common';
 import { Observable, map } from 'rxjs';
 
 @Injectable()
-export class VoidInterceptor implements NestInterceptor {
+export class DeleteInterceptor implements NestInterceptor {
 	intercept(
 		context: ExecutionContext,
 		next: CallHandler<any>
@@ -16,7 +18,16 @@ export class VoidInterceptor implements NestInterceptor {
 
 		return next.handle().pipe(
 			map((responseBody) => {
-				if (!responseBody) return { message: 'Successfully' };
+				if (typeof responseBody == 'boolean') {
+					if (responseBody)
+						return {
+							message: 'Delete successfully',
+							statusCode: HttpStatus.OK,
+						};
+
+					throw new BadRequestException('Delete unsuccessfully');
+				}
+
 				return responseBody;
 			})
 		);

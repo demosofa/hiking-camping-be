@@ -10,8 +10,11 @@ import {
 import { ColorService } from './color.service';
 import { CreateColorDto } from './dto/create-color.dto';
 import { UpdateColorDto } from './dto/update-color.dto';
+import { Auth } from '@common/decorators';
+import { ROLE } from '@common/enums';
 
 @Controller('color')
+@Auth(ROLE.ADMIN)
 export class ColorController {
 	constructor(private readonly colorService: ColorService) {}
 
