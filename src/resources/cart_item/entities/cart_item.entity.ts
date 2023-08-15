@@ -28,11 +28,14 @@ export class CartItem extends BaseEntity {
 	@Column()
 	nameCart: string;
 
+	@Column({ default: 0 })
+	totalPrice: number;
+
 	@ManyToOne(() => User, (user) => user.cartItem)
-	userId: User;
+	user: User;
 
 	@ManyToOne(() => Variant, (variant) => variant.cartItem)
-	variantId: Variant;
+	variant: Variant;
 
 	@DeleteDateColumn()
 	@Exclude()

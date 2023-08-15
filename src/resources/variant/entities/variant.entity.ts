@@ -25,7 +25,7 @@ export class Variant extends BaseEntity {
 	@ManyToOne(() => Size, (size) => size.variant)
 	size: Size;
 
-	@OneToMany(() => CartItem, (cart_item) => cart_item.variantId)
+	@OneToMany(() => CartItem, (cart_item) => cart_item.variant)
 	cartItem: CartItem[];
 
 	@Column()

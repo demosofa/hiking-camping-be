@@ -9,11 +9,17 @@ export class CreateCartItemDto {
 	itemPrice: number;
 
 	@IsNotEmpty()
+	image: string;
+
+	@IsNotEmpty()
 	nameCart: string;
+
+	@IsNotEmpty()
+	totalPrice: number;
 
 	@IsEmpty()
 	variantId: string;
 
-	@IsEmpty()
+	@IsNotEmpty()
 	userId: string;
 }

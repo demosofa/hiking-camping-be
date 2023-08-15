@@ -24,14 +24,14 @@ export class CartItemService {
 
 	async create(createCartItemDto: CreateCartItemDto) {
 		try {
-			let userId: User;
-			let variantId: Variant;
+			let user: User;
+			let variant: Variant;
 			if (createCartItemDto.userId) {
-				userId = await this.userService.findOne(createCartItemDto.userId);
+				user = await this.userService.findById(createCartItemDto.userId);
 				delete createCartItemDto.userId;
 			}
 			if (createCartItemDto.variantId) {
-				variantId = await this.variantService.findOne(
+				variant = await this.variantService.findOne(
 					createCartItemDto.variantId
 				);
 				delete createCartItemDto.variantId;
@@ -39,8 +39,8 @@ export class CartItemService {
 
 			const cartItem = CartItem.create({
 				...createCartItemDto,
-				userId,
-				variantId,
+				user,
+				variant,
 			});
 			return CartItem.save(cartItem);
 		} catch (error) {
@@ -61,7 +61,8 @@ export class CartItemService {
 	}
 
 	async findCartItemByUserId(userId: string) {
-		return (await this.userService.findById(userId))?.cartItem;
+		// return (await this.userService.findById(userId))?.cartItem;
+		return await this.userService.findById(userId);
 	}
 
 	async findOne(id: string) {
@@ -73,19 +74,17 @@ export class CartItemService {
 	async update(id: string, updateCartItemDto: UpdateCartItemDto) {
 		await this.findOne(id);
 
-		let userId: User;
-		let variantId: Variant;
+		let user: User;
+		let variant: Variant;
 		if (updateCartItemDto.userId) {
-			userId = await this.userService.findOne(updateCartItemDto.userId);
+			user = await this.userService.findById(updateCartItemDto.userId);
 			delete updateCartItemDto.userId;
 		}
 		if (updateCartItemDto.variantId) {
-			variantId = await this.variantService.findOne(
-				updateCartItemDto.variantId
-			);
+			variant = await this.variantService.findOne(updateCartItemDto.variantId);
 			delete updateCartItemDto.variantId;
 		}
-		return CartItem.save({ id, ...updateCartItemDto, userId, variantId });
+		return CartItem.save({ id, ...updateCartItemDto, user, variant });
 	}
 
 	async remove(id: string): Promise<void> {
