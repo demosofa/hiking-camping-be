@@ -16,5 +16,6 @@ import { RoleModule } from '@resources/role/role.module';
 	],
 	controllers: [ProductController],
 	providers: [ProductService],
+	exports: [ProductService],
 })
 export class ProductModule {}
