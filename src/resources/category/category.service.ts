@@ -24,6 +24,7 @@ export class CategoryService {
 					id: createCategoryDto.parentCategoryId,
 				});
 			}
+
 			const isExist = await this.categoryRepos.findOneBy({
 				category: createCategoryDto.category,
 			});
