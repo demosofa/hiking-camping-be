@@ -42,6 +42,7 @@ export class ProductService {
 					color: true,
 					size: true,
 				},
+				review: true,
 			},
 		});
 		return findAllProduct;
