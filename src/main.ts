@@ -7,13 +7,7 @@ import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-	const appOptions = {
-		cors: true,
-	};
-	const app = await NestFactory.create<NestExpressApplication>(
-		AppModule,
-		appOptions
-	);
+	const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
 	app.use(helmet());
 	app.enableCors();

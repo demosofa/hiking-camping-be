@@ -28,7 +28,7 @@ export class CategoryController {
 		file: Express.Multer.File,
 		@Body() createCategoryDto: CreateCategoryDto
 	) {
-		if (file) createCategoryDto.image = file.path.replace('\\', '/');
+		if (file) createCategoryDto.image = file.path;
 		return this.categoryService.create(createCategoryDto);
 	}
 
