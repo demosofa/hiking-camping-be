@@ -14,10 +14,11 @@ import { RoleModule } from '@resources/role/role.module';
 import { UserModule } from '@resources/user/user.module';
 import { ProductService } from '../product/product.service';
 import { ProductModule } from '../product/product.module';
+import { Product } from '../product/entities/product.entity';
 
 @Module({
 	imports: [
-		TypeOrmModule.forFeature([Variant, Role, User]),
+		TypeOrmModule.forFeature([Variant, Role, User, Product]),
 		RoleModule,
 		UserModule,
 		ColorModule,
