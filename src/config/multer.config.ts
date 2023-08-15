@@ -18,7 +18,7 @@ export const multerConfig = registerAs(
 			},
 
 			filename(req, file, callback) {
-				return callback(null, `${Date.now()}.${extname(file.originalname)}`);
+				return callback(null, `${Date.now()}${extname(file.originalname)}`);
 			},
 		}),
 
