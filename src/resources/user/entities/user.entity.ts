@@ -49,7 +49,7 @@ export class User {
 	@JoinColumn()
 	wishlist: Wishlist;
 
-	@OneToMany(() => CartItem, (cart_item) => cart_item.userId)
+	@OneToMany(() => CartItem, (cart_item) => cart_item.user)
 	cartItem: CartItem[];
 
 	@CreateDateColumn()
