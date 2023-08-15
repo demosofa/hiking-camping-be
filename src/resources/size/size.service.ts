@@ -40,7 +40,7 @@ export class SizeService {
 			const size = await Size.findOneBy({
 				size: updateSizeDto.size,
 			});
-			if (size) throw new Error('size alreay existed');
+			if (size) throw new Error('size already existed');
 
 			return Size.save({ id, ...updateSizeDto });
 		} catch (error) {

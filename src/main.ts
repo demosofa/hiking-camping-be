@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
 import { ValidationPipe } from '@nestjs/common';
-import { VoidInterceptor } from '@common/interceptors/void.interceptor';
+import { DeleteInterceptor } from '@common/interceptors/delete.interceptor';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
@@ -11,7 +11,7 @@ async function bootstrap() {
 
 	app.use(helmet());
 	app.enableCors();
-	app.useGlobalInterceptors(new VoidInterceptor());
+	app.useGlobalInterceptors(new DeleteInterceptor());
 	app.useGlobalPipes(
 		new ValidationPipe({
 			transform: true,
@@ -19,9 +19,9 @@ async function bootstrap() {
 			validationError: { target: false },
 		})
 	);
-	app.useStaticAssets(join(__dirname, '..', 'public'), {
+	app.useStaticAssets(join(__dirname, '..', 'upload'), {
 		index: false,
-		prefix: '/public',
+		prefix: '/upload',
 	});
 
 	await app.listen(3000);

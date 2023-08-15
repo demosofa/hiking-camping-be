@@ -34,6 +34,9 @@ export class VariantService {
 			const variant = Variant.create({ ...createVariantDto, color, size });
 			return Variant.save(variant);
 		} catch (error) {
+			if (createVariantDto.image) {
+				unlinkSync(createVariantDto.image);
+			}
 			throw new BadRequestException(error.message);
 		}
 	}
@@ -71,6 +74,9 @@ export class VariantService {
 
 			return Variant.save({ ...oldData, ...updateVariantDto, color, size });
 		} catch (error) {
+			if (updateVariantDto.isNewImage) {
+				unlinkSync(updateVariantDto.image);
+			}
 			throw new BadRequestException(error.message);
 		}
 	}

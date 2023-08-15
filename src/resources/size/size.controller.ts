@@ -10,8 +10,11 @@ import {
 import { SizeService } from './size.service';
 import { CreateSizeDto } from './dto/create-size.dto';
 import { UpdateSizeDto } from './dto/update-size.dto';
+import { Auth } from '@common/decorators';
+import { ROLE } from '@common/enums';
 
 @Controller('size')
+@Auth(ROLE.ADMIN)
 export class SizeController {
 	constructor(private readonly sizeService: SizeService) {}
 

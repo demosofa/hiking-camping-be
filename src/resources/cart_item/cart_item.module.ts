@@ -7,8 +7,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CartItem } from './entities/cart_item.entity';
 import { ColorModule } from '@resources/color/color.module';
 import { SizeModule } from '@resources/size/size.module';
-import { ColorService } from '@resources/color/color.service';
-import { SizeService } from '@resources/size/size.service';
 import { UserModule } from '@resources/user/user.module';
 import { UserService } from '@resources/user/user.service';
 import { User } from '@resources/user/entities/user.entity';

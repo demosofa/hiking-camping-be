@@ -13,8 +13,11 @@ import { VariantService } from './variant.service';
 import { CreateVariantDto } from './dto/create-variant.dto';
 import { UpdateVariantDto } from './dto/update-variant.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Auth } from '@common/decorators';
+import { ROLE } from '@common/enums';
 
 @Controller('variant')
+@Auth(ROLE.ADMIN)
 export class VariantController {
 	constructor(private readonly variantService: VariantService) {}
 

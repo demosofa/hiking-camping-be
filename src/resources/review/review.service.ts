@@ -9,7 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Review } from './entities/review.entity';
 import { Repository } from 'typeorm';
 import { Product } from '@resources/product/entities/product.entity';
-import { ResponseItem } from '@resources/product/dto/ReponsiveItem';
+import { ResponseItem } from '@common/types/ResponseItem';
 
 @Injectable()
 export class ReviewService {

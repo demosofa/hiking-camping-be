@@ -10,7 +10,7 @@ import {
 import { ReviewService } from './review.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
-import { ResponseItem } from '@resources/product/dto/ReponsiveItem';
+import { ResponseItem } from '@common/types/ResponseItem';
 import { Review } from './entities/review.entity';
 
 @Controller('review')

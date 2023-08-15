@@ -24,12 +24,21 @@ export class CategoryService {
 					id: createCategoryDto.parentCategoryId,
 				});
 			}
+			const isExist = await this.categoryRepos.findOneBy({
+				category: createCategoryDto.category,
+			});
+			if (isExist)
+				throw new BadRequestException('The category is already existed');
+
 			const product = this.categoryRepos.create(createCategoryDto);
 			return this.categoryRepos.save({
 				...product,
 				parentCategory,
 			});
 		} catch (error) {
+			if (createCategoryDto.image) {
+				unlinkSync(createCategoryDto.image);
+			}
 			throw new BadRequestException(error.message);
 		}
 	}
@@ -79,6 +88,9 @@ export class CategoryService {
 				parentCategory,
 			});
 		} catch (error) {
+			if (updateCategoryDto.isNewImage) {
+				unlinkSync(updateCategoryDto.image);
+			}
 			throw new BadRequestException(error.message);
 		}
 	}

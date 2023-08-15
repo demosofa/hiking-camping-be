@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, UseGuards } from '@nestjs/common';
+import {
+	BadRequestException,
+	Injectable,
+	NotFoundException,
+	UseGuards,
+} from '@nestjs/common';
 import { UpdateWishlistDto } from './dto/update-wishlist.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Wishlist } from './entities/wishlist.entity';
@@ -46,6 +51,14 @@ export class WishlistService {
 		delete updateWishlistDto.productId;
 
 		const oldWishlist = await this.findOne(id);
+		if (
+			oldWishlist.products.findIndex(
+				(item) => item.id == updateWishlistDto.productId
+			) != -1
+		)
+			throw new BadRequestException(
+				'This product is already existed in your wishlist'
+			);
 		return this.wishlistRepos.save({
 			...oldWishlist,
 			products: oldWishlist.products.concat(product),
