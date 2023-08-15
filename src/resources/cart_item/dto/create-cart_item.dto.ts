@@ -1,5 +1,4 @@
-import { IsEmpty, IsNotEmpty, isNotEmpty } from 'class-validator';
-import { Column } from 'typeorm';
+import { IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
 
 export class CreateCartItemDto {
 	@IsNotEmpty()
@@ -17,9 +16,11 @@ export class CreateCartItemDto {
 	@IsNotEmpty()
 	totalPrice: number;
 
-	@IsEmpty()
+	@IsOptional()
+	@IsUUID()
 	variantId: string;
 
 	@IsNotEmpty()
+	@IsUUID()
 	userId: string;
 }
