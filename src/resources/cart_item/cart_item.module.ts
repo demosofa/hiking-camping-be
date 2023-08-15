@@ -12,6 +12,7 @@ import { UserService } from '@resources/user/user.service';
 import { User } from '@resources/user/entities/user.entity';
 import { Role } from '@resources/role/entities/role.entity';
 import { RoleModule } from '@resources/role/role.module';
+import { ProductModule } from '../product/product.module';
 
 @Module({
 	imports: [
@@ -21,6 +22,7 @@ import { RoleModule } from '@resources/role/role.module';
 		SizeModule,
 		RoleModule,
 		UserModule,
+		ProductModule,
 	],
 	controllers: [CartItemController],
 	providers: [CartItemService, VariantService, UserService],
