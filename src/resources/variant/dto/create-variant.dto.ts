@@ -21,4 +21,8 @@ export class CreateVariantDto {
 	@IsOptional()
 	@IsString()
 	image: string;
+
+	@IsOptional()
+	@IsString()
+	productId: string;
 }
