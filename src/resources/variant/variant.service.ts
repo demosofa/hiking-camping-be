@@ -11,17 +11,21 @@ import { Color } from '../color/entities/color.entity';
 import { Size } from '../size/entities/size.entity';
 import { Variant } from './entities/variant.entity';
 import { unlinkSync } from 'fs';
+import { ProductService } from '@resources/product/product.service';
+import { Product } from '../product/entities/product.entity';
 
 @Injectable()
 export class VariantService {
 	constructor(
 		private readonly colorService: ColorService,
-		private readonly sizeService: SizeService
+		private readonly sizeService: SizeService,
+		private readonly productService: ProductService
 	) {}
 	async create(createVariantDto: CreateVariantDto) {
 		try {
 			let color: Color;
 			let size: Size;
+			let product: Product;
 			if (createVariantDto.colorId) {
 				color = await this.colorService.findOne(createVariantDto.colorId);
 				delete createVariantDto.colorId;
@@ -30,8 +34,17 @@ export class VariantService {
 				size = await this.sizeService.findOne(createVariantDto.sizeId);
 				delete createVariantDto.sizeId;
 			}
+			if (createVariantDto.productId) {
+				product = await this.productService.findOne(createVariantDto.productId);
+				delete createVariantDto.productId;
+			}
 
-			const variant = Variant.create({ ...createVariantDto, color, size });
+			const variant = Variant.create({
+				...createVariantDto,
+				color,
+				size,
+				product,
+			});
 			return Variant.save(variant);
 		} catch (error) {
 			if (createVariantDto.image) {
@@ -57,12 +70,17 @@ export class VariantService {
 
 			let color: Color;
 			let size: Size;
+			let product: Product;
 			if (updateVariantDto.colorId) {
 				color = await this.colorService.findOne(updateVariantDto.colorId);
 				delete updateVariantDto.colorId;
 			}
 			if (updateVariantDto.sizeId) {
 				size = await this.sizeService.findOne(updateVariantDto.sizeId);
+				delete updateVariantDto.sizeId;
+			}
+			if (updateVariantDto.productId) {
+				product = await this.productService.findOne(updateVariantDto.sizeId);
 				delete updateVariantDto.sizeId;
 			}
 
@@ -72,7 +90,13 @@ export class VariantService {
 				unlinkSync(oldData.image);
 			}
 
-			return Variant.save({ ...oldData, ...updateVariantDto, color, size });
+			return Variant.save({
+				...oldData,
+				...updateVariantDto,
+				color,
+				size,
+				product,
+			});
 		} catch (error) {
 			if (updateVariantDto.isNewImage) {
 				unlinkSync(updateVariantDto.image);
