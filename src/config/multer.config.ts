@@ -23,7 +23,7 @@ export const multerConfig = registerAs(
 		}),
 
 		fileFilter(req, file, callback) {
-			if (file.mimetype.match(/jpeg|jpg|png|gif/)) callback(null, true);
+			if (file.mimetype.match(/jpeg|jpg|png|gif|webp/)) callback(null, true);
 			else
 				callback(
 					new HttpException(
