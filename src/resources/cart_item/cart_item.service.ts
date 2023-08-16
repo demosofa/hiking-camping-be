@@ -61,8 +61,7 @@ export class CartItemService {
 	}
 
 	async findCartItemByUserId(userId: string) {
-		// return (await this.userService.findById(userId))?.cartItem;
-		return await this.userService.findById(userId);
+		return (await this.userService.findById(userId))?.cartItem;
 	}
 
 	async findOne(id: string) {
