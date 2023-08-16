@@ -28,15 +28,13 @@ export class WishlistService {
 		return this.wishlistRepos.save(wishlist);
 	}
 
-	findAll() {
-		return `This action returns all wishlist`;
-	}
-
 	async findOne(id: string) {
 		const result = await this.wishlistRepos.findOne({
-			where: { id },
+			where: { user: { id } },
 			relations: {
-				products: true,
+				products: {
+					variant: true,
+				},
 			},
 		});
 
@@ -44,13 +42,13 @@ export class WishlistService {
 		return result;
 	}
 
-	async update(id: string, updateWishlistDto: UpdateWishlistDto) {
+	async update(userId: string, updateWishlistDto: UpdateWishlistDto) {
 		const product = await this.productService.findOne(
 			updateWishlistDto.productId
 		);
 		delete updateWishlistDto.productId;
 
-		const oldWishlist = await this.findOne(id);
+		const oldWishlist = await this.findOne(userId);
 		if (
 			oldWishlist.products.findIndex(
 				(item) => item.id == updateWishlistDto.productId
@@ -65,8 +63,8 @@ export class WishlistService {
 		});
 	}
 
-	async remove(id: string) {
-		await this.findOne(id);
-		return (await this.wishlistRepos.delete(id)).affected > 0;
+	async remove(userId: string) {
+		const wishlist = await this.findOne(userId);
+		return (await this.wishlistRepos.delete(wishlist.id)).affected > 0;
 	}
 }

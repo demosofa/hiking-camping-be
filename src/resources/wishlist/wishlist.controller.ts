@@ -4,7 +4,6 @@ import {
 	Post,
 	Body,
 	Patch,
-	Param,
 	Delete,
 	UseGuards,
 } from '@nestjs/common';
@@ -24,25 +23,20 @@ export class WishlistController {
 	}
 
 	@Get()
-	findAll() {
-		return this.wishlistService.findAll();
+	findOne(@ReqUser('id') userId: string) {
+		return this.wishlistService.findOne(userId);
 	}
 
-	@Get(':id')
-	findOne(@Param('id') id: string) {
-		return this.wishlistService.findOne(id);
-	}
-
-	@Patch(':id')
+	@Patch()
 	update(
-		@Param('id') id: string,
+		@ReqUser('id') userId: string,
 		@Body() updateWishlistDto: UpdateWishlistDto
 	) {
-		return this.wishlistService.update(id, updateWishlistDto);
+		return this.wishlistService.update(userId, updateWishlistDto);
 	}
 
-	@Delete(':id')
-	remove(@Param('id') id: string) {
-		return this.wishlistService.remove(id);
+	@Delete()
+	remove(@ReqUser('id') userId: string) {
+		return this.wishlistService.remove(userId);
 	}
 }
