@@ -63,8 +63,11 @@ export class WishlistService {
 		});
 	}
 
-	async remove(userId: string) {
-		const wishlist = await this.findOne(userId);
-		return (await this.wishlistRepos.delete(wishlist.id)).affected > 0;
+	async remove(userId: string, productId) {
+		const { id, products } = await this.findOne(userId);
+		return this.wishlistRepos.save({
+			id,
+			products: products.filter((item) => item.id != productId),
+		});
 	}
 }
