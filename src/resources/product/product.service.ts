@@ -54,6 +54,11 @@ export class ProductService {
 				where: { id },
 				relations: {
 					category: true,
+					variant: {
+						color: true,
+						size: true,
+					},
+					review: true,
 				},
 			});
 			if (!result) throw new NotFoundException();
