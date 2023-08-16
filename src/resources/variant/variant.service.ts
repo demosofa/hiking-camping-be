@@ -55,7 +55,12 @@ export class VariantService {
 	}
 
 	findAll() {
-		return Variant.find();
+		return Variant.find({
+			relations: {
+				color: true,
+				size: true,
+			},
+		});
 	}
 
 	async findOne(id: string) {
