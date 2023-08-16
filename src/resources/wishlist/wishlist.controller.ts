@@ -6,6 +6,7 @@ import {
 	Patch,
 	Delete,
 	UseGuards,
+	Param,
 } from '@nestjs/common';
 import { WishlistService } from './wishlist.service';
 import { UpdateWishlistDto } from './dto/update-wishlist.dto';
@@ -35,8 +36,8 @@ export class WishlistController {
 		return this.wishlistService.update(userId, updateWishlistDto);
 	}
 
-	@Delete()
-	remove(@ReqUser('id') userId: string) {
-		return this.wishlistService.remove(userId);
+	@Delete(':id')
+	remove(@ReqUser('id') userId: string, @Param('id') productId: string) {
+		return this.wishlistService.remove(userId, productId);
 	}
 }
