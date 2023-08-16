@@ -12,6 +12,7 @@ import { CartItemService } from './cart_item.service';
 import { CreateCartItemDto } from './dto/create-cart_item.dto';
 import { UpdateCartItemDto } from './dto/update-cart_item.dto';
 import { AuthGuard } from '@common/guards';
+import { ReqUser } from '@common/decorators';
 
 @Controller('cart-item')
 @UseGuards(AuthGuard)
@@ -28,8 +29,8 @@ export class CartItemController {
 		return this.cartItemService.findAll();
 	}
 
-	@Get('user/:id')
-	findCartItemByUserId(@Param('id') id: string) {
+	@Get('user')
+	findCartItemByUserId(@ReqUser('id') id: string) {
 		return this.cartItemService.findCartItemByUserId(id);
 	}
 
