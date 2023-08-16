@@ -9,7 +9,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-	app.use(helmet());
+	app.use(helmet({ crossOriginResourcePolicy: false }));
 	app.enableCors();
 	app.useGlobalInterceptors(new DeleteInterceptor());
 	app.useGlobalPipes(
