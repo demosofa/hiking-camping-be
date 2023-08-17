@@ -61,29 +61,22 @@ export class CartItemService {
 	}
 
 	async findCartItemByUserId(userId: string) {
-		return (await this.userService.findById(userId))?.cartItem;
+		const user = await this.userService.findById(userId);
+		return user.cartItem;
 	}
 
 	async findOne(id: string) {
-		const result = await this.cartItemRepo.findOneBy({ id });
+		const result = await this.cartItemRepo.findOne({
+			where: { id },
+			relations: { variant: true },
+		});
 		if (!result) throw new NotFoundException();
 		return result;
 	}
 
 	async update(id: string, updateCartItemDto: UpdateCartItemDto) {
 		await this.findOne(id);
-
-		let user: User;
-		let variant: Variant;
-		if (updateCartItemDto.userId) {
-			user = await this.userService.findById(updateCartItemDto.userId);
-			delete updateCartItemDto.userId;
-		}
-		if (updateCartItemDto.variantId) {
-			variant = await this.variantService.findOne(updateCartItemDto.variantId);
-			delete updateCartItemDto.variantId;
-		}
-		return CartItem.save({ id, ...updateCartItemDto, user, variant });
+		return CartItem.save({ id, ...updateCartItemDto });
 	}
 
 	async remove(id: string): Promise<void> {
