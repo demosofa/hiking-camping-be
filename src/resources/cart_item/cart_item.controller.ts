@@ -20,7 +20,11 @@ export class CartItemController {
 	constructor(private readonly cartItemService: CartItemService) {}
 
 	@Post()
-	create(@Body() createCartItemDto: CreateCartItemDto) {
+	create(
+		@ReqUser('id') userId: string,
+		@Body() createCartItemDto: CreateCartItemDto
+	) {
+		createCartItemDto.userId = userId;
 		return this.cartItemService.create(createCartItemDto);
 	}
 
