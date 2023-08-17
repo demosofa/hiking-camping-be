@@ -59,6 +59,7 @@ export class VariantService {
 			relations: {
 				color: true,
 				size: true,
+				cartItem: true,
 			},
 		});
 	}
