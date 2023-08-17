@@ -20,7 +20,7 @@ export class CreateCartItemDto {
 	@IsUUID()
 	variantId: string;
 
-	@IsNotEmpty()
+	@IsOptional()
 	@IsUUID()
 	userId: string;
 }
