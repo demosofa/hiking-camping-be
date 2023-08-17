@@ -48,6 +48,7 @@ export class CategoryService {
 		const findAllCategory = await this.categoryRepos.find({
 			relations: {
 				parentCategory: true,
+				product: true,
 			},
 		});
 		return findAllCategory;

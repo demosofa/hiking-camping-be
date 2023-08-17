@@ -25,12 +25,11 @@ export class ProductController {
 		return this.productService.create(createProductDto);
 	}
 
-	@Auth(ROLE.ADMIN, ROLE.CUSTOMER)
 	@Get()
 	findAll() {
 		return this.productService.findAll();
 	}
-	@Auth(ROLE.ADMIN, ROLE.CUSTOMER)
+
 	@Get(':id')
 	findOne(@Param('id') id: string) {
 		return this.productService.findOne(id);

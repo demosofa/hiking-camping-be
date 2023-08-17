@@ -17,10 +17,9 @@ import { Auth } from '@common/decorators';
 import { ROLE } from '@common/enums';
 
 @Controller('category')
-@Auth(ROLE.ADMIN)
 export class CategoryController {
 	constructor(private readonly categoryService: CategoryService) {}
-
+	@Auth(ROLE.ADMIN)
 	@Post()
 	@UseInterceptors(FileInterceptor('file'))
 	create(
@@ -41,7 +40,7 @@ export class CategoryController {
 	findOne(@Param('id') id: string) {
 		return this.categoryService.findOne(id);
 	}
-
+	@Auth(ROLE.ADMIN)
 	@Patch(':id')
 	@UseInterceptors(FileInterceptor('file'))
 	update(
@@ -56,7 +55,7 @@ export class CategoryController {
 		}
 		return this.categoryService.update(id, updateCategoryDto);
 	}
-
+	@Auth(ROLE.ADMIN)
 	@Delete(':id')
 	remove(@Param('id') id: string) {
 		return this.categoryService.remove(id);
