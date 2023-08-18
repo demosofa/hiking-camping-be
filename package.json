@@ -5,6 +5,9 @@
 	"author": "",
 	"private": true,
 	"license": "UNLICENSED",
+	"engines": {
+		"node": ">=16"
+	},
 	"scripts": {
 		"build": "nest build",
 		"format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -21,6 +24,7 @@
 		"prepare": "husky install"
 	},
 	"dependencies": {
+		"@nestjs/cli": "^10.1.12",
 		"@nestjs/common": "^10.0.0",
 		"@nestjs/config": "^3.0.0",
 		"@nestjs/core": "^10.0.0",
@@ -41,7 +45,6 @@
 	"devDependencies": {
 		"@commitlint/cli": "^17.7.1",
 		"@commitlint/config-conventional": "^17.7.0",
-		"@nestjs/cli": "^10.0.0",
 		"@nestjs/schematics": "^10.0.0",
 		"@nestjs/testing": "^10.0.0",
 		"@types/bcrypt": "^5.0.0",
