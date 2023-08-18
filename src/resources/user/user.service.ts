@@ -22,8 +22,16 @@ export class UserService implements IUserService {
 		const isExist = await this.userRepos.findOneBy({
 			email: createUserDto.email,
 		});
-		if (isExist) throw new BadRequestException();
-		const role = await this.roleService.findOne(ROLE.CUSTOMER);
+		if (isExist)
+			throw new BadRequestException(
+				'The user with this email is already existed'
+			);
+		let role = await this.roleService.findOne(ROLE.CUSTOMER);
+		if (!role) {
+			role = await this.roleService.findOne(ROLE.ADMIN);
+			if (!role) role = await this.roleService.create({ name: ROLE.ADMIN });
+			else role = await this.roleService.create({ name: ROLE.CUSTOMER });
+		}
 		const user = this.userRepos.create({ ...createUserDto, role });
 		return this.userRepos.save(user);
 	}
@@ -42,7 +50,7 @@ export class UserService implements IUserService {
 				},
 			},
 		});
-		if (!user) throw new NotFoundException();
+		if (!user) throw new NotFoundException('Can not find the user');
 		return user;
 	}
 
@@ -51,9 +59,12 @@ export class UserService implements IUserService {
 			where: { email },
 			relations: {
 				role: true,
+				cartItem: {
+					variant: true,
+				},
 			},
 		});
-		if (!user) throw new NotFoundException();
+		if (!user) throw new NotFoundException('Can not find the user');
 		return user;
 	}
 
@@ -63,13 +74,16 @@ export class UserService implements IUserService {
 			const isExist = await this.userRepos.findOneBy({
 				email: updateUserDto.email,
 			});
-			if (isExist) throw new BadRequestException();
+			if (isExist)
+				throw new BadRequestException(
+					'The user with this email is already existed'
+				);
 		}
 		return this.userRepos.save({ ...user, ...updateUserDto });
 	}
 
 	async remove(id: string) {
 		const { affected } = await this.userRepos.delete(id);
-		if (!affected) throw new NotFoundException();
+		if (!affected) throw new NotFoundException('Can not find the user');
 	}
 }

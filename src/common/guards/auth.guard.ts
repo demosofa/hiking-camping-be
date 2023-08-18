@@ -24,10 +24,11 @@ export class AuthGuard implements CanActivate {
 			.getRequest<Request & { user: AuthUser }>();
 
 		const auth = req.headers.authorization;
-		if (!auth) throw new UnauthorizedException();
+		if (!auth) throw new UnauthorizedException('There is no authorization');
 
 		const [type, token] = auth.split(' ');
-		if (type != 'Bearer' || !token) throw new UnauthorizedException();
+		if (type != 'Bearer' || !token)
+			throw new UnauthorizedException('There is no token available');
 
 		try {
 			const secret = this.configService.get('SECRET');

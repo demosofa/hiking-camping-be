@@ -17,7 +17,7 @@ export class AuthService implements IAuthService {
 		if (!user) throw new UnauthorizedException();
 		const { password, id, fullName, role } = user;
 		const check = compareSync(loginUserDto.password, password);
-		if (!check) throw new UnauthorizedException();
+		if (!check) throw new UnauthorizedException('Can not find the account');
 		return this.jwtService.signAsync({ id, fullName, role: role.name });
 	}
 

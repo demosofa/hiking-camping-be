@@ -18,7 +18,7 @@ export class RoleService {
 		const isExist = await this.roleRepos.findOneBy({
 			name: createRoleDto.name,
 		});
-		if (isExist) throw new BadRequestException();
+		if (isExist) throw new BadRequestException('This role is already existent');
 		const result = this.roleRepos.create(createRoleDto);
 		return this.roleRepos.save(result);
 	}
@@ -29,13 +29,13 @@ export class RoleService {
 
 	async findOne(name: ROLE) {
 		const result = await this.roleRepos.findOneBy({ name });
-		if (!result) throw new NotFoundException();
+		if (!result) return null;
 		return result;
 	}
 
 	async findById(id: number) {
 		const result = await this.roleRepos.findOneBy({ id });
-		if (!result) throw new NotFoundException();
+		if (!result) return null;
 		return result;
 	}
 
@@ -43,13 +43,13 @@ export class RoleService {
 		const isExist = await this.roleRepos.findOneBy({
 			name: updateRoleDto.name,
 		});
-		if (isExist) throw new BadRequestException();
+		if (isExist) throw new BadRequestException('This role is already existent');
 		const target = await this.roleRepos.findOneBy({ id });
 		return this.roleRepos.save({ ...target, ...updateRoleDto });
 	}
 
 	async remove(id: string) {
 		const { affected } = await this.roleRepos.delete(id);
-		if (!affected) throw new NotFoundException();
+		if (!affected) throw new NotFoundException('Role was founded');
 	}
 }
