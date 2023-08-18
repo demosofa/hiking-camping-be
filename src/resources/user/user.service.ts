@@ -59,6 +59,9 @@ export class UserService implements IUserService {
 			where: { email },
 			relations: {
 				role: true,
+				cartItem: {
+					variant: true,
+				},
 			},
 		});
 		if (!user) throw new NotFoundException('Can not find the user');
