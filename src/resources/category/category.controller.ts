@@ -17,7 +17,6 @@ import { Auth } from '@common/decorators';
 import { ROLE } from '@common/enums';
 
 @Controller('category')
-@Auth(ROLE.ADMIN)
 export class CategoryController {
 	constructor(private readonly categoryService: CategoryService) {}
 	@Auth(ROLE.ADMIN)
